@@ -28,7 +28,7 @@ Then log out/in (Wayland) and run
 
 ## Roadmap
 
-- Rich result card (bold headword, part of speech, senses) via `createResultObject`
+- ~~Rich result card~~ done (untested in the live shell)
 - Full-entry popup with all dictionaries, copy button, clickable synonyms
 - "Did you mean…" suggestions (backend already returns them)
 - Preferences UI (`prefs.js`) for the existing GSettings keys

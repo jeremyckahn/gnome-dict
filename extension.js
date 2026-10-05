@@ -7,6 +7,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {DictBackend} from './lib/backend.js';
 import {wordFromTerms} from './lib/queryFilter.js';
 import {formatSense} from './lib/parser.js';
+import {DefinitionResult} from './lib/resultWidget.js';
 
 class DictSearchProvider {
   constructor(extension) {
@@ -67,6 +68,8 @@ class DictSearchProvider {
         id,
         name: word,
         description: this._summarize(parsed),
+        clipboardText: this._summarize(parsed),
+        definition: {entries: parsed.entries, maxSenses: this._settings.get_int('max-senses')},
         createIcon: size => new St.Icon({
           icon_name: 'accessories-dictionary-symbolic',
           width: size, height: size,
@@ -83,13 +86,12 @@ class DictSearchProvider {
     return body.slice(0, 3).join(' ');
   }
 
-  activateResult(id) {
-    const {word} = this._results.get(id) ?? {};
-    if (!word) return;
-    const clipboard = St.Clipboard.get_default();
-    clipboard.set_text(St.ClipboardType.CLIPBOARD, this._summarize(this._results.get(id).parsed));
-    Main.overview.hide();
+  createResultObject(meta) {
+    return new DefinitionResult(this, meta, Main.overview.searchController._searchResults);
   }
+
+  // The shell copies meta.clipboardText and closes the overview for us.
+  activateResult() {}
 }
 
 export default class DictExtension extends Extension {

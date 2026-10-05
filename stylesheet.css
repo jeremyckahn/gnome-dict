@@ -1,0 +1,9 @@
+.dict-result { padding: 4px 0; }
+.dict-card { padding: 10px 16px; spacing: 4px; }
+.dict-headword { font-size: 1.4em; font-weight: bold; }
+.dict-pos { font-style: italic; color: rgba(255, 255, 255, 0.6); margin-top: 4px; }
+.dict-sense { spacing: 8px; }
+.dict-sense-num { color: rgba(255, 255, 255, 0.5); min-width: 1.5em; }
+.dict-sense-text { }
+.dict-example { color: rgba(255, 255, 255, 0.55); font-style: italic; margin-left: 2em; }
+.dict-source { font-size: 0.8em; color: rgba(255, 255, 255, 0.4); margin-top: 6px; }
