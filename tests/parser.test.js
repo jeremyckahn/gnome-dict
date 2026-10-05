@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 // Run with: gjs -m tests/parser.test.js
 import GLib from 'gi://GLib';
 import {parseDictOutput} from '../lib/parser.js';

@@ -1,35 +1,78 @@
 # gnome-dict
 
 Spotlight-style dictionary lookups for GNOME Shell. Type a word into Activities
-search and see its definition inline, backed by the local `dict` CLI (`dictd`).
+search and see its definition inline — no app to open. The backend is the
+standard `dict` client talking to a local `dictd` server.
 
-**Status:** early. Search provider and card confirmed working in a live shell;
-the popup, suggestions and prefs are newly added. Targets GNOME Shell 46 (Ubuntu 24.04).
+- Styled definition card (headword, part of speech, numbered senses, example)
+- Enter/click opens a popup with every dictionary's entry, clickable synonyms and a Copy button
+- "Did you mean…" suggestions for misspellings
+- Preferences: trigger mode, dictionary database, local-only, senses shown
 
-## How it works
+**Status:** early (0.1.0). Targets **GNOME Shell 46** (Ubuntu 24.04).
 
-A GNOME Shell extension registers a search provider. For a single-word query
-(or `define <word>`) it runs `dict -f` asynchronously (2s timeout, cached),
-parses the output (WordNet senses, synonyms, examples; raw text for other
-dictionaries) and shows the first senses as the result. Activating the result
-copies the definition.
+## Requirements
 
-## Develop
+- GNOME Shell 46
+- The `dict` client and a running `dictd` server with at least one dictionary
 
 ```bash
-sudo apt install dictd dict dict-wn dict-gcide gjs
-make test      # parser + backend tests under gjs
-make install   # compile schemas, copy to ~/.local/share/gnome-shell/extensions
+sudo apt install dict dictd dict-wn dict-gcide dict-devil
+dict serendipity   # should print a definition
 ```
 
-Then log out/in (Wayland) and run
-`gnome-extensions enable gnome-dict@jeremyckahn.github.io`.
+By default only the local server is queried. Turn off "Local dictd server
+only" in the preferences to also use the servers in `/etc/dictd/dict.conf`
+(this sends your lookups over the network).
 
-## Features
+## Install
 
-- Styled definition card in Activities search (headword, part of speech, senses, example)
-- Enter/click opens a popup with every dictionary's entry, clickable synonyms and a Copy button
-- "Did you mean…" suggestions for misspellings (click to re-search)
-- Preferences window (trigger mode, database, local-only, senses shown)
+**From extensions.gnome.org** (once published): search for "Dictionary Search"
+at <https://extensions.gnome.org/> and toggle it on.
 
-Only the non-GUI code has automated tests; the shell UI is verified by hand.
+**From a release zip:**
+
+```bash
+gnome-extensions install --force gnome-dict@jeremyckahn.github.io.shell-extension.zip
+```
+
+**From source:**
+
+```bash
+git clone https://github.com/jeremyckahn/gnome-dict.git
+cd gnome-dict
+make install
+```
+
+On Wayland, log out and back in so GNOME Shell picks up the new extension,
+then enable it:
+
+```bash
+gnome-extensions enable gnome-dict@jeremyckahn.github.io
+```
+
+## Usage
+
+Open Activities (Super key) and type a word, or `define <word>`. Press Enter
+on the result for the full entry. Open the preferences with:
+
+```bash
+gnome-extensions prefs gnome-dict@jeremyckahn.github.io
+```
+
+## Troubleshooting
+
+- No result appears: check `dict <word>` works in a terminal, and that the
+  extension is enabled (`gnome-extensions list --enabled`).
+- Errors: `journalctl -f /usr/bin/gnome-shell`. Messages about objects "already
+  disposed" from `search.js` are GNOME's own and harmless.
+
+## Documentation
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — development setup, architecture, testing
+- [docs/RELEASING.md](docs/RELEASING.md) — building and publishing to extensions.gnome.org
+- [CHANGELOG.md](CHANGELOG.md)
+
+## License
+
+[GPL-2.0-or-later](LICENSE).

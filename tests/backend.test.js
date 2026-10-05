@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 // Run with: gjs -m tests/backend.test.js  (needs a working `dict`)
 import GLib from 'gi://GLib';
 import {DictBackend} from '../lib/backend.js';

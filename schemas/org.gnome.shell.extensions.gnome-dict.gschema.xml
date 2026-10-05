@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
 <schemalist>
   <schema id="org.gnome.shell.extensions.gnome-dict" path="/org/gnome/shell/extensions/gnome-dict/">
     <key name="database" type="s">

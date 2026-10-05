@@ -20,5 +20,11 @@ uninstall:
 nested: install
 	dbus-run-session gnome-shell --nested --wayland  # needs a graphical session
 
-zip: schemas
-	zip -r $(UUID).zip metadata.json extension.js prefs.js stylesheet.css lib schemas -x 'schemas/gschemas.compiled'
+# Builds the bundle to upload to extensions.gnome.org (see docs/RELEASING.md).
+zip:
+	mkdir -p dist
+	gnome-extensions pack --force \
+		--schema=schemas/org.gnome.shell.extensions.gnome-dict.gschema.xml \
+		--extra-source=lib --extra-source=stylesheet.css --extra-source=prefs.js \
+		--out-dir=dist .
+	@unzip -l dist/$(UUID).shell-extension.zip

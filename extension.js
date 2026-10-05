@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import St from 'gi://St';
@@ -20,6 +21,8 @@ class DictSearchProvider {
     this._backend = new DictBackend();
     this._results = new Map();
     this._dialog = null;
+    this._hiddenId = 0;
+    this._idleId = 0;
     this._syncSettings();
     this._settingsId = this._settings.connect('changed', () => this._syncSettings());
 
@@ -41,6 +44,14 @@ class DictSearchProvider {
   }
 
   destroy() {
+    if (this._hiddenId) {
+      Main.overview.disconnect(this._hiddenId);
+      this._hiddenId = 0;
+    }
+    if (this._idleId) {
+      GLib.source_remove(this._idleId);
+      this._idleId = 0;
+    }
     this._dialog?.close();
     this._dialog = null;
     this._settings.disconnect(this._settingsId);
@@ -131,9 +142,14 @@ class DictSearchProvider {
       this._dialog.open();
     };
     if (Main.overview.visible) {
-      const id = Main.overview.connect('hidden', () => {
-        Main.overview.disconnect(id);
-        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => { open(); return GLib.SOURCE_REMOVE; });
+      this._hiddenId = Main.overview.connect('hidden', () => {
+        Main.overview.disconnect(this._hiddenId);
+        this._hiddenId = 0;
+        this._idleId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+          this._idleId = 0;
+          open();
+          return GLib.SOURCE_REMOVE;
+        });
       });
       Main.overview.hide();
     } else {

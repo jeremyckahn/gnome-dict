@@ -1,8 +1,9 @@
 {
   "uuid": "gnome-dict@jeremyckahn.github.io",
   "name": "Dictionary Search",
-  "description": "Spotlight-style dictionary definitions in Activities search, powered by the dict CLI.",
+  "description": "Spotlight-style dictionary definitions in Activities search, powered by the dict CLI.\n\nType a word to see its definition inline; press Enter for the full entry. Requires the dict client and a dictd server with at least one dictionary installed (e.g. `sudo apt install dict dictd dict-wn`).",
   "shell-version": ["46"],
   "url": "https://github.com/jeremyckahn/gnome-dict",
-  "settings-schema": "org.gnome.shell.extensions.gnome-dict"
+  "settings-schema": "org.gnome.shell.extensions.gnome-dict",
+  "version-name": "0.1.0"
 }
