@@ -1,0 +1,8 @@
+{
+  "uuid": "gnome-dict@jeremyckahn.github.io",
+  "name": "Dictionary Search",
+  "description": "Spotlight-style dictionary definitions in Activities search, powered by the dict CLI.",
+  "shell-version": ["46"],
+  "url": "https://github.com/jeremyckahn/gnome-dict",
+  "settings-schema": "org.gnome.shell.extensions.gnome-dict"
+}

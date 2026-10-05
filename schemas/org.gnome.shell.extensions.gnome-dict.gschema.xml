@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.gnome-dict" path="/org/gnome/shell/extensions/gnome-dict/">
+    <key name="database" type="s">
+      <default>'*'</default>
+      <summary>dict database to query ('*' = all, 'wn' = WordNet only)</summary>
+    </key>
+    <key name="local-only" type="b">
+      <default>true</default>
+      <summary>Only query the local dictd server</summary>
+    </key>
+    <key name="trigger-mode" type="s">
+      <default>'any'</default>
+      <summary>'any' = any single word, 'prefix' = only "define word"</summary>
+    </key>
+    <key name="max-senses" type="i">
+      <default>3</default>
+      <summary>Number of senses shown in the result</summary>
+    </key>
+  </schema>
+</schemalist>
