@@ -1,0 +1,4 @@
+1 definition found
+localhost	2628	wn	WordNet (r) 3.0 (2006)
+  serendipity
+      n 1: good luck in making unexpected and fortunate discoveries
