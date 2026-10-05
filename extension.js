@@ -24,6 +24,7 @@ class DictSearchProvider {
     this._dialog = null;
     this._hiddenId = 0;
     this._idleId = 0;
+    this._lastError = null;
     this._syncSettings();
     this._settingsId = this._settings.connect('changed', () => this._syncSettings());
 
@@ -66,6 +67,7 @@ class DictSearchProvider {
     try {
       const parsed = await this._backend.define(word, cancellable);
       if (!this._settings) return [];
+      this._lastError = null;
       if (parsed.found) {
         this._remember(word, {word, parsed});
         return [word];
@@ -76,7 +78,11 @@ class DictSearchProvider {
         return id;
       });
     } catch (e) {
-      if (!e.matches?.(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED)) logError(e);
+      if (!e.matches?.(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED)) {
+        // Log each distinct failure once, not on every keystroke.
+        if (e.message !== this._lastError) logError(e);
+        this._lastError = e.message;
+      }
       return [];
     }
   }
