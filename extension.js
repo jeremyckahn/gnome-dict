@@ -41,6 +41,7 @@ class DictSearchProvider {
   }
 
   destroy() {
+    this._backend.destroy();
     this._settings.disconnect(this._settingsId);
     this._settings = null;
   }
@@ -63,6 +64,7 @@ class DictSearchProvider {
         return id;
       });
     } catch (e) {
+      if (!this._settings) return [];
       if (!e.matches?.(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED)) {
         // Log each distinct failure once, not on every keystroke.
         if (e.message !== this._lastError) logError(e);
