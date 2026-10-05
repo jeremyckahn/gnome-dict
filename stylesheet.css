@@ -1,5 +1,8 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
-.dict-result { padding: 4px 0; }
+.dict-result { padding: 4px 0; border-radius: 12px; }
+/* Our rows don't use the theme's .list-search-result class, so highlight focus ourselves. */
+.dict-result:hover { background-color: rgba(255, 255, 255, 0.08); }
+.dict-result:focus, .dict-result:selected { background-color: rgba(255, 255, 255, 0.14); box-shadow: inset 0 0 0 2px rgba(120, 174, 237, 0.9); }
 .dict-card { padding: 10px 16px; spacing: 4px; }
 .dict-headword { font-size: 1.4em; font-weight: bold; }
 .dict-pos { font-style: italic; color: rgba(255, 255, 255, 0.6); margin-top: 4px; }
@@ -14,6 +17,7 @@
 .dict-raw { font-family: monospace; font-size: 0.9em; }
 .dict-synonyms { spacing: 6px; margin-left: 2em; }
 .dict-synonym { padding: 0 6px; border-radius: 6px; color: #78aeed; }
-.dict-synonym:hover, .dict-synonym:focus { background-color: rgba(255, 255, 255, 0.12); }
+.dict-synonym:hover { background-color: rgba(255, 255, 255, 0.12); }
+.dict-synonym:focus { background-color: rgba(255, 255, 255, 0.18); box-shadow: inset 0 0 0 2px rgba(120, 174, 237, 0.9); }
 .dict-suggestion { padding: 10px 16px; spacing: 6px; }
 .dict-suggestion-word { font-weight: bold; }
