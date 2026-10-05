@@ -3,9 +3,8 @@
 Spotlight-style dictionary lookups for GNOME Shell. Type a word into Activities
 search and see its definition inline, backed by the local `dict` CLI (`dictd`).
 
-**Status:** early. Parser, backend and search provider are written and the
-non-GUI parts are tested; the extension itself has not yet been exercised in a
-live GNOME Shell. Targets GNOME Shell 46 (Ubuntu 24.04).
+**Status:** early. Search provider and card confirmed working in a live shell;
+the popup, suggestions and prefs are newly added. Targets GNOME Shell 46 (Ubuntu 24.04).
 
 ## How it works
 
@@ -26,9 +25,11 @@ make install   # compile schemas, copy to ~/.local/share/gnome-shell/extensions
 Then log out/in (Wayland) and run
 `gnome-extensions enable gnome-dict@jeremyckahn.github.io`.
 
-## Roadmap
+## Features
 
-- ~~Rich result card~~ done (untested in the live shell)
-- Full-entry popup with all dictionaries, copy button, clickable synonyms
-- "Did you mean…" suggestions (backend already returns them)
-- Preferences UI (`prefs.js`) for the existing GSettings keys
+- Styled definition card in Activities search (headword, part of speech, senses, example)
+- Enter/click opens a popup with every dictionary's entry, clickable synonyms and a Copy button
+- "Did you mean…" suggestions for misspellings (click to re-search)
+- Preferences window (trigger mode, database, local-only, senses shown)
+
+Only the non-GUI code has automated tests; the shell UI is verified by hand.

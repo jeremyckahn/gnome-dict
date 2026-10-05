@@ -11,7 +11,7 @@ schemas:
 
 install: schemas
 	mkdir -p $(DEST)
-	cp -r metadata.json extension.js lib schemas $(DEST)/
+	cp -r metadata.json extension.js prefs.js stylesheet.css lib schemas $(DEST)/
 	@echo "Installed. Log out/in (Wayland) or use 'make nested' to try it."
 
 uninstall:
@@ -21,4 +21,4 @@ nested: install
 	dbus-run-session gnome-shell --nested --wayland  # needs a graphical session
 
 zip: schemas
-	zip -r $(UUID).zip metadata.json extension.js lib schemas -x 'schemas/gschemas.compiled'
+	zip -r $(UUID).zip metadata.json extension.js prefs.js stylesheet.css lib schemas -x 'schemas/gschemas.compiled'
