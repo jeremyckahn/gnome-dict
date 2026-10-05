@@ -4,6 +4,8 @@ Spotlight-style dictionary lookups for GNOME Shell. Type a word into Activities
 search and see its definition inline — no app to open. The backend is the
 standard `dict` client talking to a local `dictd` server.
 
+![Typing "awesome" in GNOME Activities search shows its WordNet definition inline](docs/images/search-result.png)
+
 - Styled definition card (headword, part of speech, numbered senses, example)
 - Enter/click copies the definition to the clipboard (a subtle "Enter to copy" hint is shown on the card)
 - "Did you mean…" suggestions for misspellings
