@@ -14,6 +14,7 @@ import {DefinitionResult, SuggestionResult} from './lib/resultWidget.js';
 
 const MAX_SUGGESTIONS = 3;
 const SUGGEST_PREFIX = 'suggest:';
+const MAX_REMEMBERED_RESULTS = 50;
 
 class DictSearchProvider {
   constructor(extension) {
@@ -59,23 +60,33 @@ class DictSearchProvider {
   }
 
   async getInitialResultSet(terms, cancellable) {
+    if (!this._settings) return [];
     const word = wordFromTerms(terms, {mode: this._settings.get_string('trigger-mode')});
     if (!word) return [];
     try {
       const parsed = await this._backend.define(word, cancellable);
+      if (!this._settings) return [];
       if (parsed.found) {
-        this._results.set(word, {word, parsed});
+        this._remember(word, {word, parsed});
         return [word];
       }
       return parsed.suggestions.slice(0, MAX_SUGGESTIONS).map(s => {
         const id = SUGGEST_PREFIX + s;
-        this._results.set(id, {suggestion: s});
+        this._remember(id, {suggestion: s});
         return id;
       });
     } catch (e) {
       if (!e.matches?.(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED)) logError(e);
       return [];
     }
+  }
+
+  // Keeps the result map from growing with every keystroke; evicts oldest first.
+  _remember(id, value) {
+    this._results.delete(id);
+    this._results.set(id, value);
+    if (this._results.size > MAX_REMEMBERED_RESULTS)
+      this._results.delete(this._results.keys().next().value);
   }
 
   getSubsearchResultSet(_previous, terms, cancellable) {
@@ -142,6 +153,7 @@ class DictSearchProvider {
       this._dialog.open();
     };
     if (Main.overview.visible) {
+      if (this._hiddenId) Main.overview.disconnect(this._hiddenId);
       this._hiddenId = Main.overview.connect('hidden', () => {
         Main.overview.disconnect(this._hiddenId);
         this._hiddenId = 0;
