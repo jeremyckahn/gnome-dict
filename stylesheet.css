@@ -10,12 +10,8 @@
 .dict-sense-num { color: rgba(255, 255, 255, 0.5); min-width: 1.5em; }
 .dict-sense-text { }
 .dict-example { color: rgba(255, 255, 255, 0.55); font-style: italic; margin-left: 2em; }
+.dict-footer { margin-top: 6px; }
+.dict-hint { font-size: 0.8em; color: rgba(255, 255, 255, 0.3); }
 .dict-source { font-size: 0.8em; color: rgba(255, 255, 255, 0.4); margin-top: 6px; }
-.dict-dialog { min-width: 40em; }
-.dict-dialog-scroll { height: 26em; }
-.dict-source-header { font-weight: bold; margin-top: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
-.dict-raw { font-family: monospace; font-size: 0.9em; }
-.dict-synonyms { spacing: 6px; margin-left: 2em; }
-.dict-synonym { padding: 0 6px; background-color: transparent; text-align: left; }
 .dict-suggestion { padding: 10px 16px; spacing: 6px; }
 .dict-suggestion-word { font-weight: bold; }

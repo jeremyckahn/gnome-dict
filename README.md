@@ -5,7 +5,7 @@ search and see its definition inline — no app to open. The backend is the
 standard `dict` client talking to a local `dictd` server.
 
 - Styled definition card (headword, part of speech, numbered senses, example)
-- Enter/click opens a popup with every dictionary's entry, clickable synonyms and a Copy button
+- Enter/click copies the definition to the clipboard (a subtle "Enter to copy" hint is shown on the card)
 - "Did you mean…" suggestions for misspellings
 - Preferences: trigger mode, dictionary database, local-only, senses shown
 
@@ -54,7 +54,7 @@ gnome-extensions enable gnome-dict@jeremyckahn.github.io
 ## Usage
 
 Open Activities (Super key) and type a word, or `define <word>`. Press Enter
-on the result for the full entry. Open the preferences with:
+on the result to copy its definition. Open the preferences with:
 
 ```bash
 gnome-extensions prefs gnome-dict@jeremyckahn.github.io

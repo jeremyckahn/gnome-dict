@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
 import St from 'gi://St';
 
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import {DictBackend} from './lib/backend.js';
-import {DefinitionDialog} from './lib/dialog.js';
 import {wordFromTerms} from './lib/queryFilter.js';
 import {formatSense} from './lib/parser.js';
 import {DefinitionResult, SuggestionResult} from './lib/resultWidget.js';
@@ -21,9 +19,6 @@ class DictSearchProvider {
     this._settings = extension.getSettings();
     this._backend = new DictBackend();
     this._results = new Map();
-    this._dialog = null;
-    this._hiddenId = 0;
-    this._idleId = 0;
     this._lastError = null;
     this._syncSettings();
     this._settingsId = this._settings.connect('changed', () => this._syncSettings());
@@ -46,16 +41,6 @@ class DictSearchProvider {
   }
 
   destroy() {
-    if (this._hiddenId) {
-      Main.overview.disconnect(this._hiddenId);
-      this._hiddenId = 0;
-    }
-    if (this._idleId) {
-      GLib.source_remove(this._idleId);
-      this._idleId = 0;
-    }
-    this._dialog?.close();
-    this._dialog = null;
     this._settings.disconnect(this._settingsId);
     this._settings = null;
   }
@@ -117,11 +102,11 @@ class DictSearchProvider {
         id,
         name: r.word,
         description: summary,
+        // The shell copies this to the clipboard when the result is activated.
+        clipboardText: `${r.word}\n${summary}`,
         definition: {
-          word: r.word,
           entries: r.parsed.entries,
           maxSenses: this._settings.get_int('max-senses'),
-          clipboardText: `${r.word}\n${summary}`,
         },
         createIcon,
       };
@@ -144,36 +129,6 @@ class DictSearchProvider {
   }
 
   activateResult() {}
-
-  // Opens the full-entry popup once the overview has finished closing.
-  showDefinition(meta) {
-    const open = () => {
-      this._dialog?.close();
-      this._dialog = new DefinitionDialog(meta.definition, {
-        copy: text => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, text),
-        onLookup: word => {
-          Main.overview.show();
-          Main.overview.searchEntry.set_text(word);
-        },
-      });
-      this._dialog.open();
-    };
-    if (Main.overview.visible) {
-      if (this._hiddenId) Main.overview.disconnect(this._hiddenId);
-      this._hiddenId = Main.overview.connect('hidden', () => {
-        Main.overview.disconnect(this._hiddenId);
-        this._hiddenId = 0;
-        this._idleId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
-          this._idleId = 0;
-          open();
-          return GLib.SOURCE_REMOVE;
-        });
-      });
-      Main.overview.hide();
-    } else {
-      open();
-    }
-  }
 }
 
 export default class DictExtension extends Extension {

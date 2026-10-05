@@ -23,7 +23,6 @@ Activities search
        │    └─ parseDictOutput     lib/parser.js       pure parsing (WordNet senses, suggestions)
        ├─ DefinitionResult         lib/resultWidget.js card shown in search results
        ├─ SuggestionResult         lib/resultWidget.js "Did you mean…" row
-       └─ DefinitionDialog         lib/dialog.js       full-entry popup
 prefs.js                           preferences window (separate process; no Shell imports)
 ```
 
