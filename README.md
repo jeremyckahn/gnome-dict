@@ -11,11 +11,11 @@ standard `dict` client talking to a local `dictd` server.
 - "Did you mean…" suggestions for misspellings
 - Preferences: trigger mode, dictionary database, local-only, senses shown
 
-**Status:** early (0.1.0). Targets **GNOME Shell 46** (Ubuntu 24.04).
+**Status:** early (0.1.0). Targets **GNOME Shell 46** (Ubuntu 24.04) and **50**.
 
 ## Requirements
 
-- GNOME Shell 46
+- GNOME Shell 46 or 50
 - The `dict` client and a running `dictd` server with at least one dictionary
 
 ```bash

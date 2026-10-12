@@ -32,7 +32,7 @@ prefs.js                           preferences window (separate process; no Shel
   `Gio.Subprocess` with an argv array (no shell string) and a cancellable.
 - `dict` writes "no match" messages and suggestions to **stderr**; the backend
   merges stderr into stdout. Exit codes: 0 found, 20 no match, 21 suggestions.
-- `resultWidget.js` and `extension.js` rely on GNOME Shell 46 internals
+- `resultWidget.js` and `extension.js` rely on GNOME Shell 46/50 internals
   (`ui/search.js`, `searchController._searchResults`). Re-check them against
   the Shell source when adding support for a new version.
 
